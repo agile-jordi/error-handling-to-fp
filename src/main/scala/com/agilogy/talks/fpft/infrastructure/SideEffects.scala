@@ -16,13 +16,10 @@ object SideEffects {
     effects.toList.slice(since, effects.size)
   }
 
-  def reset(initialDocuments: String*): Unit = {
+  def reset(): Unit = {
     effects.clear()
     documents.clear()
     lastConnectionId = 0
-    initialDocuments.zipWithIndex.foreach {
-      case (doc, idx) => documents.put(idx.toString, doc)
-    }
   }
 
   def sideEffect(description: String): Unit = {

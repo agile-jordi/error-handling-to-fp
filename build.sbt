@@ -6,7 +6,7 @@ lazy val root = (project in file("."))
     name := "Hello",
     scalaVersion := "2.12.3",
 //    wartremoverErrors ++= Warts.unsafe,
-    wartremoverWarnings ++= Warts.allBut(Wart.DefaultArguments, Wart.Equals),
+    wartremoverWarnings ++= Warts.allBut(Wart.DefaultArguments, Wart.Equals, Wart.NonUnitStatements),
     libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.2.22",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
   )

@@ -1,19 +1,8 @@
 package com.agilogy.talks.fpft.imperative.erorhandling
 
-import com.agilogy.talks.fpft.domain.{Document, DocumentId}
+import com.agilogy.talks.fpft.domain._
 import com.agilogy.talks.fpft.infrastructure.SideEffects.{Connection, DataSource, SqlException}
 import com.agilogy.talks.fpft.utils.EitherUtils._
-
-sealed trait InsertDocumentError
-
-sealed trait UpdateDocumentError
-
-final case class ConnectionError(sqlException: SqlException) extends InsertDocumentError with UpdateDocumentError
-
-final case class DocumentAlreadyExists(id: DocumentId) extends InsertDocumentError
-
-final case class DocumentNotFound(id: DocumentId) extends UpdateDocumentError
-
 
 class DocumentService(documentRepository: DocumentRepository, transactionController: TransactionController) {
 
