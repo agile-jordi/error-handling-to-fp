@@ -1,6 +1,7 @@
 package com.agilogy.talks.fpft.imperative.simple
 
 import com.agilogy.talks.fpft.domain.{Document, DocumentId}
+import com.agilogy.talks.fpft.imperative.DocumentNotFoundException
 import com.agilogy.talks.fpft.infrastructure.SideEffects.{Connection, DataSource}
 
 import scala.util.control.NonFatal
@@ -49,10 +50,6 @@ class TransactionController(dataSource: DataSource) {
 
 }
 
-final case class DocumentNotFound(id:DocumentId) extends RuntimeException{
-  override def getMessage: String = s"Document $id not found"
-}
-
 @SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements", "org.wartremover.warts.Throw"))
 class DocumentRepository {
 
@@ -66,7 +63,7 @@ class DocumentRepository {
 
   def updateDocument(document: Document)(conn: Connection): Unit = {
     val updated = conn.executeUpdate(s"update documents set content = '${document.content}' where id = '${document.id.id}'")
-    if(updated == 0) throw DocumentNotFound(document.id)
+    if(updated == 0) throw DocumentNotFoundException(document.id)
   }
 
 }

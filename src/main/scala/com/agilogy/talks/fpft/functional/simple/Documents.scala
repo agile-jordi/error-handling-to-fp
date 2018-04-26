@@ -12,7 +12,7 @@ trait Documents[F[_]] {
 
   type Transaction
 
-  type TxAction[A] = Kleisli[F, Transaction, A]
+  type TxAction[A] = Kleisli[F, Transaction, A] // ~= Transaction => F[A]
 
   object TxAction{
     def apply[A](f: Transaction => F[A]): TxAction[A] = Kleisli(f)
@@ -33,7 +33,7 @@ trait Documents[F[_]] {
       }
     }
 
-    def insertDocument(document: Document): Unit = {
+    def insertDocument(document: Document): F[Unit] = {
       transactionController.inTransaction {
           documentRepository.insertDocument(document)
       }
@@ -57,10 +57,6 @@ trait Documents[F[_]] {
         _ <- commit(tx)
       } yield res
     }
-  }
-
-  final case class DocumentNotFound(id: DocumentId) extends RuntimeException {
-    override def getMessage: String = s"Document $id not found"
   }
 
   trait DocumentRepository {
