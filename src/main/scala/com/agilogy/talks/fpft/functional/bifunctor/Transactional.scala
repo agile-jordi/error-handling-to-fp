@@ -5,9 +5,9 @@ import scalaz.{Bifunctor, Bitraverse, Kleisli}
 
 import scala.language.higherKinds
 
-trait Transactional[F[+_,+_]]{
+trait Transactional[F[+ _, + _]] {
 
-  implicit def B:Bitraverse[F]
+  implicit def B: Bitraverse[F]
 
   type Transaction
 
@@ -17,6 +17,6 @@ trait Transactional[F[+_,+_]]{
     def apply[E, A](f: Transaction => F[E, A]): TxAction[E, A] = Kleisli[F[E, ?], Transaction, A](f)
   }
 
-  protected implicit val BT: Bifunctor[TxAction] = KleisiUtils.kleisliBifunctor[F,Transaction]
+  protected implicit val BT: Bifunctor[TxAction] = KleisiUtils.kleisliBifunctor[F, Transaction]
 
 }

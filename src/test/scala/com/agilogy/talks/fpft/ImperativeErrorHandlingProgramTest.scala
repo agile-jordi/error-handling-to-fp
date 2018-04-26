@@ -1,9 +1,9 @@
 package com.agilogy.talks.fpft
 
+import com.agilogy.talks.fpft.TestEitherUtils._
 import com.agilogy.talks.fpft.domain.{Document, DocumentAlreadyExists, DocumentId, InsertDocumentError}
 import com.agilogy.talks.fpft.imperative.erorhandling._
 import com.agilogy.talks.fpft.infrastructure.SideEffects
-import TestEitherUtils._
 
 @SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements"))
 class ImperativeErrorHandlingProgramTest extends TestTemplate {

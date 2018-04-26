@@ -8,10 +8,10 @@ object EitherUtils {
 
   def right[R](r: R): Either[Nothing, R] = Right[Nothing, R](r)
 
-  def fromTry[R](f: => R): Either[Throwable,R] = {
+  def fromTry[R](f: => R): Either[Throwable, R] = {
     try {
       right(f)
-    }catch{
+    } catch {
       case NonFatal(e) => left(e)
     }
   }

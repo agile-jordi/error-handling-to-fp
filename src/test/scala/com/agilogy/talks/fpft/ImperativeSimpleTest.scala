@@ -16,7 +16,7 @@ class ImperativeSimpleTest extends TestTemplate {
   }
 
   override def insertDocument(docId: DocumentId, body: String): Unit = {
-    val res = intercept[SqlException]{
+    val res = intercept[SqlException] {
       service.insertDocument(Document(DocumentId("agile-manifesto"), "am.org"))
     }
     assert(res === SqlException("Duplicate key 'agile-manifesto' in documents"))

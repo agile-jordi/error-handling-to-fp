@@ -8,7 +8,7 @@ import scala.language.higherKinds
 
 trait Documents[F[_]] {
 
-  implicit def M:Monad[F]
+  implicit def M: Monad[F]
 
   type Transaction
 
@@ -25,30 +25,27 @@ trait Documents[F[_]] {
   }
 
   implicit def txActionBifunctor: Bifunctor[TxAction] = new Bifunctor[TxAction] {
-    override def bimap[A, B, C, D](fab: TxAction[A, B])(f: A => C, g: B => D): TxAction[C, D] = TxAction{
+    override def bimap[A, B, C, D](fab: TxAction[A, B])(f: A => C, g: B => D): TxAction[C, D] = TxAction {
       tx =>
-        fab.run(tx).bimap(f,g)
+        fab.run(tx).bimap(f, g)
     }
   }
-
 
   class DocumentService(documentRepository: DocumentRepository, transactionController: TransactionController) {
 
     @SuppressWarnings(Array("org.wartremover.warts.Throw"))
     def saveDocumentIfNotFound(document: Document): Action[ConnectionError, Unit] = {
 
-//      import TxAction.txActionBifunctor
-
       transactionController.inTransaction {
         for {
           doc <- documentRepository.getDocument(document.id)
           _ <- if (doc.nonEmpty) {
-            documentRepository.updateDocument(document).leftMap{
+            documentRepository.updateDocument(document).leftMap {
               case e: ConnectionError => e
               case _ => throw new IllegalStateException("Unreachable code")
             }
           } else {
-            documentRepository.insertDocument(document).leftMap{
+            documentRepository.insertDocument(document).leftMap {
               case e: ConnectionError => e
               case _ => throw new IllegalStateException("Unreachable code")
             }
@@ -78,14 +75,14 @@ trait Documents[F[_]] {
     @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf"))
     def inTransaction[E >: ConnectionError, T](f: TxAction[E, T]): Action[E, T] = {
       begin().asInstanceOf[Action[E, Transaction]].flatMap { tx =>
-        Action{
+        Action {
           f.run(tx).toEither.map {
             case Left(e) =>
               rollback(tx)
-              Left[E,T](e)
+              Left[E, T](e)
             case Right(r) =>
               commit(tx)
-              Right[E,T](r)
+              Right[E, T](r)
           }
         }
       }

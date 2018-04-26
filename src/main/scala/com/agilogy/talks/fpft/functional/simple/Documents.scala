@@ -8,13 +8,13 @@ import scala.language.higherKinds
 
 trait Documents[F[_]] {
 
-  implicit def M:Monad[F]
+  implicit def M: Monad[F]
 
   type Transaction
 
   type TxAction[A] = Kleisli[F, Transaction, A] // ~= Transaction => F[A]
 
-  object TxAction{
+  object TxAction {
     def apply[A](f: Transaction => F[A]): TxAction[A] = Kleisli(f)
   }
 
@@ -35,7 +35,7 @@ trait Documents[F[_]] {
 
     def insertDocument(document: Document): F[Unit] = {
       transactionController.inTransaction {
-          documentRepository.insertDocument(document)
+        documentRepository.insertDocument(document)
       }
     }
 

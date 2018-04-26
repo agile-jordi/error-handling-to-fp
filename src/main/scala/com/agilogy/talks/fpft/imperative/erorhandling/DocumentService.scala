@@ -54,7 +54,7 @@ class TransactionController(dataSource: DataSource) {
       res <- f(conn)
       _ <- handleErrors(conn.commit())
     } yield res
-    if(txResult.isLeft){
+    if (txResult.isLeft) {
       //TODO: Proper error handling of rollback
       conn.rollback()
     }

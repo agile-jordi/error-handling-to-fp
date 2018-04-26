@@ -3,8 +3,8 @@ package com.agilogy.talks.fpft.functional.eithert
 import com.agilogy.talks.fpft.domain._
 import com.agilogy.talks.fpft.infrastructure.SideEffects.{Connection, DataSource, SqlException}
 import com.agilogy.talks.fpft.utils.EitherUtils._
-import scalaz.{Monad, Scalaz}
-import scalaz.Scalaz._
+import scalaz._
+import Scalaz._
 
 import scala.language.higherKinds
 

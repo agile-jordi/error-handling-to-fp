@@ -6,9 +6,9 @@ import org.scalatest.FunSpec
 
 trait TestTemplate extends FunSpec {
 
-  def saveDocument(docId:DocumentId, body:String): Unit
+  def saveDocument(docId: DocumentId, body: String): Unit
 
-  def insertDocument(docId:DocumentId, body:String): Unit
+  def insertDocument(docId: DocumentId, body: String): Unit
 
   it("should run with side effects") {
     SideEffects.reset()

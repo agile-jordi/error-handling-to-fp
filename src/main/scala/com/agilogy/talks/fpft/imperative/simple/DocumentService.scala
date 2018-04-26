@@ -63,7 +63,7 @@ class DocumentRepository {
 
   def updateDocument(document: Document)(conn: Connection): Unit = {
     val updated = conn.executeUpdate(s"update documents set content = '${document.content}' where id = '${document.id.id}'")
-    if(updated == 0) throw DocumentNotFoundException(document.id)
+    if (updated == 0) throw DocumentNotFoundException(document.id)
   }
 
 }

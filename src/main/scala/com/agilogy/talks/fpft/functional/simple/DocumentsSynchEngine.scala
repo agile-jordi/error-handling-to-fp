@@ -48,7 +48,7 @@ object DocumentsSynchEngine extends Documents[Id] {
 
     def updateDocument(document: Document): TxAction[Unit] = TxAction {
       conn =>
-          conn.executeUpdate(s"update documents set content = '${document.content}' where id = '${document.id.id}'")
+        conn.executeUpdate(s"update documents set content = '${document.content}' where id = '${document.id.id}'")
     }
   }
 

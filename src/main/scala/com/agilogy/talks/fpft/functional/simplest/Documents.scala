@@ -22,7 +22,7 @@ class DocumentService[F[_] : Monad : DocumentRepository] {
   }
 
   def insertDocument(document: Document): F[Unit] = {
-      documentRepository.insertDocument(document)
+    documentRepository.insertDocument(document)
   }
 
 }
